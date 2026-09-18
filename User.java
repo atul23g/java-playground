@@ -1,7 +1,13 @@
 class User {
+
+    private Integer id;
     private String name;
     private String email;
     private Organization organization;
+
+    public Integer getId() {
+    return id;
+   }
 
     public String getName(){
         return name;
@@ -16,9 +22,9 @@ class User {
 
 
 
-    User(String name, String email, Organization organization){
-        if(name == null || name.isBlank()){
-            throw new IllegalArgumentException("Name can't be Empty");
+    User(Integer id, String name, String email, Organization organization){
+        if(id == null || id <=0 ||name == null || name.isBlank()){
+            throw new IllegalArgumentException("ID cannot be null and name cannot be blank");
         }
         if(email == null || !email.contains("@")){
             throw new IllegalArgumentException("email can't be accepted");
@@ -31,7 +37,7 @@ class User {
 
 
 
-
+        this.id = id;
         this.name = name;
 
         this.email = email;
@@ -39,5 +45,7 @@ class User {
         this.organization = organization;
 
     }
+
+    
 }
 
