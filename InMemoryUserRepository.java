@@ -5,7 +5,7 @@ public class InMemoryUserRepository implements UserRepository{
     @Override
     public void save(User user) {
        if(users.containsKey(user.getId())){
-        throw new IllegalArgumentException("User already exist");
+        throw new DuplicateUserException(user.getId());
        }
 
        users.put(user.getId(), user);
@@ -14,6 +14,9 @@ public class InMemoryUserRepository implements UserRepository{
 
     @Override 
     public User findById(Integer id){
+        if(users.get(id) == null){
+            throw new UserNotFoundException(id);
+        }
         return users.get(id);
     }
 }

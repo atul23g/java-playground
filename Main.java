@@ -1,26 +1,49 @@
-
 public class Main {
+
     public static void main(String[] args) {
-        
-        
-        User user1 = new User(1, "Atulya", "atulya.is22@", new Organization("IBM"));
-        User user2 = new User(2, "Vishal", "vishal.is22@", new Organization("IBM"));
-        User user3 = new User(3, "Ram", "ram.is22@", new Organization("Google"));
-        
         UserRepository repository = new InMemoryUserRepository();
         UserService service = new UserService(repository);
 
-        service.saveUser(user1);
-        service.saveUser(user2);
-        service.saveUser(user3);
-        //service.saveUser(user1);
+        User user = new User(
+                1,
+                "Atulya",
+                "atulya.is22@example.com",
+                new Organization("IBM")
+        );
 
-        User foundUser = service.findUserById(2);
-        System.out.println(foundUser.getName());
-        
+        service.saveUser(user);
 
-        
+        User foundUser = service.findUserById(1);
+        System.out.println(
+                "Lookup successful — ID: "
+                        + foundUser.getId()
+                        + ", Name: "
+                        + foundUser.getName()
+        );
 
+        User duplicateUser = new User(
+                1,
+                "Vishal",
+                "vishal.is22@example.com",
+                new Organization("IBM")
+        );
 
+        try {
+            service.saveUser(duplicateUser);
+        } catch (DuplicateUserException exception) {
+            System.out.println(
+                    "Duplicate rejected — " + exception.getMessage()
+            );
+        }
+
+        try {
+            service.findUserById(4);
+        } catch (UserNotFoundException exception) {
+            System.out.println(
+                    "Missing user rejected — " + exception.getMessage()
+            );
+        }
+
+        System.out.println("All verification paths completed.");
     }
 }
