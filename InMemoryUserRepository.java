@@ -19,4 +19,12 @@ public class InMemoryUserRepository implements UserRepository{
         }
         return users.get(id);
     }
+
+    @Override
+    public Optional<User> findActiveByEmail(String email) {
+    return users.values().stream()
+            .filter(user -> user.isActive())
+            .filter(user -> user.getEmail().equals(email))
+            .findFirst();
+}
 }

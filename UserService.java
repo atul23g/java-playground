@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class UserService {
     private final UserRepository userRepository;
 
@@ -12,6 +14,9 @@ public class UserService {
     public  User findUserById(Integer id){
         
         return userRepository.findById(id);
+    }
+    public Optional<User> findActiveUserByEmail(String email){
+        return userRepository.findActiveByEmail(email);
     }
 
 }
